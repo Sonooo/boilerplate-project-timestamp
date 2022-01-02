@@ -24,6 +24,28 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+app.get("/api/timestamp/", function (req, res) {
+  res.json({'unix': Date.now(), 'utc': Date()});
+});
+
+app.get("/api/timestamp/", function (req, res) {
+  res.json({'unix': Date.now(), 'utc': Date()});
+});
+
+app.get("/api/timestamp/:date", (req, res) => {
+  let dateString = req.params.date;
+
+  if (!isNaN(Date.parse(dateString))) {
+    let dateObject = new Date(dateString);
+    res.json({ unix: dateObject.valueOf(), utc: dateObject.toUTCString() });
+  } else if (/\d{5,}/.test(dateString)) {
+      let dateInt = parseInt(dateString);
+      res.json({ unix: dateInt, utc: new Date(dateInt).toUTCString() });
+  } else {
+    res.json({ error: "Invalid Date" });
+  }
+
+});
 
 
 // listen for requests :)
